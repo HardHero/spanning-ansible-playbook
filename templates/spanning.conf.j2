@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+    ServerAdmin andrew@crowley.cloud
+    DocumentRoot {{spanning_host_root}}
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

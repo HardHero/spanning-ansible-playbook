@@ -1,0 +1,19 @@
+---
+# tasks file for spanning-playbook
+- hosts: webservers
+  become: yes
+  serial: 1
+  roles:
+    - geerlingguy.apache
+  vars:
+    spanning_host_root: '/var/www/html/spanning-ansible'
+    starter_name: 'Andrew Crowley'
+  tasks:
+  - name: add spanning_host_root to /etc/apache2/sites-enabled/
+    template: src=../templates/spanning.conf.j2 dest=/etc/apache2/sites-enabled/spanning-ansible.conf
+  - name: create /var/www/html/spanning directory
+    file: state=directory path={{spanning_host_root}}
+  - name: add index.html to host root
+    template: src=../templates/index.html.j2 dest={{spanning_host_root}}/index.html
+  - name: restarting apache2
+    service: name=apache2 state=restarted
